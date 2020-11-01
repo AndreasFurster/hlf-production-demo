@@ -2,5 +2,15 @@
 
 A production demonstration of Hyperleger Fabric using Terraform/Azure. 
 
+_This demo is not affiliated with the used brands/companies._
 
-_This demo is not affilated with one of the used brands/companies._
+## Commands
+
+**Getting started**
+`terraform init`
+
+**Deploy infra**  
+`terraform apply -auto-approve`  
+
+**Destroy infra**  
+`terraform destroy -auto-approve`  

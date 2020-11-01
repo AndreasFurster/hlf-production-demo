@@ -1,0 +1,7 @@
+PeerOrgs:
+  - Name: Coolblue
+    Domain: coolblue.advertisers.sbc.andreasfurster.nl
+    Template:
+      Count: 1
+      SANS:
+        - localhost

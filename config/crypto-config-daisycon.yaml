@@ -1,0 +1,7 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: daisycon.networks.sbc.andreasfurster.nl
+    Template:
+      Count: 1
+      SANS:
+        - localhost
