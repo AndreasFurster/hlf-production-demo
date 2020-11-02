@@ -17,7 +17,7 @@ resource "local_file" "daisycon_public_ip_file" {
 
 # DNS record for public IP
 resource "azurerm_dns_a_record" "daisycon_dns_record" {
-  name                = "orderer0.daisycon.networks"
+  name                = "orderer0.daisycon"
   zone_name           = "sbc.andreasfurster.nl"
   resource_group_name = var.rgname
   ttl                 = 1
