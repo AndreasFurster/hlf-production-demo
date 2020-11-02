@@ -1,0 +1,156 @@
+Organizations:
+
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+        OrdererEndpoints:
+            - orderer0.daisycon.networks.sbc.andreasfurster.nl:7050
+
+    - &Coolblue
+        Name: Coolblue
+        ID: CoolblueMSP
+        MSPDir: generated/crypto-material/peerOrganizations/coolblue.advertisers.sbc.andreasfurster.nl/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('CoolblueMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('CoolblueMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('CoolblueMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('CoolblueMSP.member')"
+        AnchorPeers:
+            - Host: peer0.coolblue.advertisers.sbc.andreasfurster.nl
+              Port: 7051
+
+    # - &Org2
+    #     Name: Org2
+    #     ID: Org2MSP
+    #     MSPDir: generated/crypto-material/peerOrganizations/org2.ap.com/msp
+    #     Policies:
+    #         Readers:
+    #             Type: Signature
+    #             Rule: "OR('Org2MSP.member')"
+    #         Writers:
+    #             Type: Signature
+    #             Rule: "OR('Org2MSP.member')"
+    #         Admins:
+    #             Type: Signature
+    #             Rule: "OR('Org2MSP.admin')"
+    #         Endorsement:
+    #             Type: Signature
+    #             Rule: "OR('Org2MSP.member')"
+    #     AnchorPeers:
+    #         - Host: peer0.org2.ap.com
+    #           Port: 8051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "ANY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: etcdraft
+    EtcdRaft:
+        Consenters:
+        - Host: orderer0.daisycon.networks.sbc.andreasfurster.nl
+          Port: 7050
+          ClientTLSCert: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/orderers/orderer0.daisycon.networks.sbc.andreasfurster.nl/tls/server.crt
+          ServerTLSCert: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/orderers/orderer0.daisycon.networks.sbc.andreasfurster.nl/tls/server.crt
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    ApNetworkProfile:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            ApConsortium:
+                Organizations:
+                    - *Coolblue
+                    # - *Org2
+    ApChannelProfile:
+        Consortium: ApConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Coolblue
+                # - *Org2
+            Capabilities:
+                <<: *ApplicationCapabilities

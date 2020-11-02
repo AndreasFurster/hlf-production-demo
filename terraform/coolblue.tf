@@ -10,6 +10,11 @@ output "coolblue_public_ip" {
   value = azurerm_public_ip.coolblue_vmip.ip_address
 }
 
+resource "local_file" "coolblue_public_ip_file" {
+    content  = azurerm_public_ip.coolblue_vmip.ip_address
+    filename = "../outputs/coolblue_ip.txt"
+}
+
 # NIC with Public IP Address
 resource "azurerm_network_interface" "coolblue_nic" {
   name                = "coolblue-vm-nic"
@@ -63,5 +68,38 @@ resource "azurerm_linux_virtual_machine" "coolblue_vm" {
   admin_ssh_key {
     username   = "vmadmin"
     public_key = tls_private_key.coolblue_ssh.public_key_openssh
+  }
+}
+
+resource "null_resource" "coolblue_dependancies" {
+  provisioner "file" {
+    source      = "./scripts/dependancies.sh"
+    destination = "~/dependancies.sh"
+  }
+  
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x ~/dependancies.sh",
+      "~/dependancies.sh",
+    ]
+  }
+
+  provisioner "file" {
+    source      = "./scripts/hlf-binaries.sh"
+    destination = "~/hlf-binaries.sh"
+  }
+  
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x ~/hlf-binaries.sh",
+      "~/hlf-binaries.sh",
+    ]
+  }
+
+  connection {
+    type = "ssh"
+    user = azurerm_linux_virtual_machine.coolblue_vm.admin_username
+    host = azurerm_public_ip.coolblue_vmip.ip_address
+    private_key = tls_private_key.coolblue_ssh.private_key_pem
   }
 }
