@@ -1,7 +1,7 @@
 OrdererOrgs:
-  - Name: Orderer
-    Domain: daisycon.networks.sbc.andreasfurster.nl
+  - Name: Daisycon
+    Domain: daisycon.sbc.andreasfurster.nl
     Template:
       Count: 1
       SANS:
-      
+        - localhost

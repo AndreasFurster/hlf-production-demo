@@ -1,26 +1,26 @@
 version: "3"
 
 volumes:
-  orderer0.daisycon.networks.sbc.andreasfurster.nl:
+  orderer0.daisycon.sbc.andreasfurster.nl:
 
 networks:
   apnet:
 
 services:
-  orderer0.daisycon.networks.sbc.andreasfurster.nl:
-    container_name: orderer0.daisycon.networks.sbc.andreasfurster.nl
-    image: hyperledger/fabric-orderer:2.2.1
+  orderer0.daisycon.sbc.andreasfurster.nl:
+    container_name: orderer0.daisycon.sbc.andreasfurster.nl
+    image: hyperledger/fabric-orderer:2.2
     volumes:
       - ~/generated/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ~/generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/orderers/orderer0.daisycon.networks.sbc.andreasfurster.nl/msp:/var/hyperledger/orderer/msp
-      - ~/generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/orderers/orderer0.daisycon.networks.sbc.andreasfurster.nl/tls/:/var/hyperledger/orderer/tls
-      - orderer0.daisycon.networks.sbc.andreasfurster.nl:/var/hyperledger/production/orderer
+      - ~/generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/msp:/var/hyperledger/orderer/msp
+      - ~/generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/tls/:/var/hyperledger/orderer/tls
+      - orderer0.daisycon.sbc.andreasfurster.nl:/var/hyperledger/production/orderer
     environment:
       # Orderer Specific settings
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_LISTENPORT=7050
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=DaisyconMSP
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       # Orderer TLS settings
       - ORDERER_GENERAL_TLS_ENABLED=true

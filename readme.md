@@ -14,3 +14,7 @@ _This demo is not affiliated with the used brands/companies._
 
 **Destroy infra**  
 `terraform destroy -auto-approve`  
+
+## Vragen
+
+- Genereer ik de anchor peer update tx op de orderer of op de peer?

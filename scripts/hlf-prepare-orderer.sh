@@ -1,2 +1,5 @@
+sudo rm -rf ./generated
+
+
 echo "Creating folders for crypto material from orgs"
-mkdir -p generated/crypto-material/peerOrganizations/coolblue.advertisers.sbc.andreasfurster.nl/msp
+mkdir -p ./generated/crypto-material/peerOrganizations/coolblue.advertisers.sbc.andreasfurster.nl/msp

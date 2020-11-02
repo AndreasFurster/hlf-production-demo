@@ -7,11 +7,12 @@ function printSeparator() {
 }
 
 export FABRIC_CFG_PATH=${PWD}
+export FABRIC_LOGGING_SPEC="WARN:cauthdsl=debug:policies=debug:msp=debug"
 
-export ORDERER_CA=${PWD}/generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/tlsca/tlsca.daisycon.networks.sbc.andreasfurster.nl-cert.pem
+export ORDERER_CA=${PWD}/generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/tlsca/tlsca.daisycon.sbc.andreasfurster.nl-cert.pem
 export CORE_PEER_LOCALMSPID=CoolblueMSP
-export CORE_PEER_MSPCONFIGPATH=${PWD}/generated/crypto-material/peerOrganizations/coolblue.advertisers.sbc.andreasfurster.nl/peers/peer0.coolblue.advertisers.sbc.andreasfurster.nl/msp
-export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/generated/crypto-material/peerOrganizations/coolblue.advertisers.sbc.andreasfurster.nl/peers/peer0.coolblue.advertisers.sbc.andreasfurster.nl/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=${PWD}/generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl/peers/peer0.coolblue.sbc.andreasfurster.nl/msp
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl/peers/peer0.coolblue.sbc.andreasfurster.nl/tls/ca.crt
 export CORE_PEER_ADDRESS=localhost:7050
 
 printSeparator "Create channel"
@@ -19,8 +20,8 @@ peer channel create \
   --channelID apchannel \
   --file ./apchannel.tx \
   --outputBlock ./apchannel.block \
-  --orderer orderer0.daisycon.networks.sbc.andreasfurster.nl:7050 \
-  --tls true \
+  --orderer orderer0.daisycon.sbc.andreasfurster.nl:7050 \
+  --tls false \
   --cafile $ORDERER_CA
   # --ordererTLSHostnameOverride orderer0.ap.com \
 

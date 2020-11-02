@@ -2,6 +2,8 @@ YELLOW='\033[0;33m'
 NO_COLOR='\033[0m'
 
 export FABRIC_CFG_PATH=${PWD}
+export FABRIC_LOGGING_SPEC="WARN:cauthdsl=debug:policies=debug:msp=debug"
+
 
 function printSeparator() {
   echo -e "${YELLOW}"
@@ -9,7 +11,10 @@ function printSeparator() {
 }
 
 printSeparator "Generate crypto-material"
-cryptogen generate --config=./crypto-config.yaml --output=./generated/crypto-material
+cryptogen generate --config=./crypto-config-daisycon.yaml --output=./generated/crypto-material
+cryptogen generate --config=./crypto-config-coolblue.yaml --output=./generated/crypto-material
+cryptogen generate --config=./crypto-config-tweakers.yaml --output=./generated/crypto-material
+
 
 printSeparator "Create Genesis-Block"
 configtxgen \
@@ -19,9 +24,9 @@ configtxgen \
   -outputBlock ./generated/system-genesis-block/genesis.block
 
 printSeparator "Start node"
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
 
+docker-compose --file ./docker-compose-node.yaml down --volumes --remove-orphans
+sleep 2
 docker-compose --file ./docker-compose-node.yaml up -d
 
 printSeparator "Create Channel Transaction"
@@ -39,3 +44,10 @@ configtxgen \
   -channelID apchannel \
   -asOrg Coolblue
 
+printSeparator "Create Anchor Peers Update for Tweakers"
+configtxgen \
+  -profile ApChannelProfile \
+  -configPath ${PWD} \
+  -outputAnchorPeersUpdate ./generated/channel-artifacts/TweakersMSPanchors.tx \
+  -channelID apchannel \
+  -asOrg Tweakers

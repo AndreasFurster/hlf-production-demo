@@ -1,6 +1,6 @@
 PeerOrgs:
-  - Name: Coolblue
-    Domain: coolblue.sbc.andreasfurster.nl
+  - Name: Tweakers
+    Domain: tweakers.sbc.andreasfurster.nl
     Template:
       Count: 1
       SANS:

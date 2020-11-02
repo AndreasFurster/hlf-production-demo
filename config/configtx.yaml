@@ -1,26 +1,26 @@
 Organizations:
 
-    - &DaisyconOrg
-        Name: DaisyconOrg
-        ID: DaisyconMSP
-        MSPDir: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/msp
+    - &Daisycon
+        Name: Daisycon
+        ID: OrdererMSP
+        MSPDir: generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('DaisyconMSP.member')"
+                Rule: "OR('OrdererMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('DaisyconMSP.member')"
+                Rule: "OR('OrdererMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('DaisyconMSP.admin')"
+                Rule: "OR('OrdererMSP.admin')"
         OrdererEndpoints:
-            - orderer0.daisycon.networks.sbc.andreasfurster.nl:7050
+            - orderer0.daisycon.sbc.andreasfurster.nl:7050
 
     - &Coolblue
         Name: Coolblue
         ID: CoolblueMSP
-        MSPDir: generated/crypto-material/peerOrganizations/coolblue.advertisers.sbc.andreasfurster.nl/msp
+        MSPDir: generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl/msp
         Policies:
             Readers:
                 Type: Signature
@@ -35,29 +35,29 @@ Organizations:
                 Type: Signature
                 Rule: "OR('CoolblueMSP.member')"
         AnchorPeers:
-            - Host: peer0.coolblue.advertisers.sbc.andreasfurster.nl
-              Port: 7050
+            - Host: peer0.coolblue.sbc.andreasfurster.nl
+              Port: 7051
 
-    # - &Org2
-    #     Name: Org2
-    #     ID: Org2MSP
-    #     MSPDir: generated/crypto-material/peerOrganizations/org2.ap.com/msp
-    #     Policies:
-    #         Readers:
-    #             Type: Signature
-    #             Rule: "OR('Org2MSP.member')"
-    #         Writers:
-    #             Type: Signature
-    #             Rule: "OR('Org2MSP.member')"
-    #         Admins:
-    #             Type: Signature
-    #             Rule: "OR('Org2MSP.admin')"
-    #         Endorsement:
-    #             Type: Signature
-    #             Rule: "OR('Org2MSP.member')"
-    #     AnchorPeers:
-    #         - Host: peer0.org2.ap.com
-    #           Port: 8051
+    - &Tweakers
+        Name: Tweakers
+        ID: TweakersMSP
+        MSPDir: generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('TweakersMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('TweakersMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('TweakersMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('TweakersMSP.member')"
+        AnchorPeers:
+            - Host: peer0.tweakers.sbc.andreasfurster.nl
+              Port: 8051
 
 Capabilities:
     Channel: &ChannelCapabilities
@@ -92,10 +92,10 @@ Orderer: &OrdererDefaults
     OrdererType: etcdraft
     EtcdRaft:
         Consenters:
-        - Host: orderer0.daisycon.networks.sbc.andreasfurster.nl
+        - Host: orderer0.daisycon.sbc.andreasfurster.nl
           Port: 7050
-          ClientTLSCert: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/orderers/orderer0.daisycon.networks.sbc.andreasfurster.nl/tls/server.crt
-          ServerTLSCert: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/orderers/orderer0.daisycon.networks.sbc.andreasfurster.nl/tls/server.crt
+          ClientTLSCert: generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/tls/server.crt
+          ServerTLSCert: generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/tls/server.crt
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10
@@ -136,14 +136,14 @@ Profiles:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
-                - *DaisyconOrg
+                - *Daisycon
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
             ApConsortium:
                 Organizations:
                     - *Coolblue
-                    # - *Org2
+                    - *Tweakers
     ApChannelProfile:
         Consortium: ApConsortium
         <<: *ChannelDefaults
@@ -151,6 +151,6 @@ Profiles:
             <<: *ApplicationDefaults
             Organizations:
                 - *Coolblue
-                # - *Org2
+                - *Tweakers
             Capabilities:
                 <<: *ApplicationCapabilities
