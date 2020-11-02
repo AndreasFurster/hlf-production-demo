@@ -20,14 +20,13 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
 # Add current user to dockergroup
 sudo usermod -aG docker ${USER}
-sudo su -s /bin/bash ${USER}
 
 # Install docker compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
+
 # Download & install hlf
+# TODO: Run in seperate script to apply with user in correct docker group
 curl -sSL https://bit.ly/2ysbOFE | bash -s
 sudo cp ./fabric-samples/bin/* /usr/local/bin/
-
-exit 0
