@@ -15,6 +15,15 @@ resource "local_file" "daisycon_public_ip_file" {
     filename = "../outputs/daisycon_ip.txt"
 }
 
+# DNS record for public IP
+resource "azurerm_dns_a_record" "daisycon_dns_record" {
+  name                = "orderer0.daisycon.networks"
+  zone_name           = "sbc.andreasfurster.nl"
+  resource_group_name = var.rgname
+  ttl                 = 1
+  records             = [azurerm_public_ip.daisycon_vmip.ip_address]
+}
+
 
 # NIC with Public IP Address
 resource "azurerm_network_interface" "daisycon_nic" {

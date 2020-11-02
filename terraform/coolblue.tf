@@ -15,6 +15,15 @@ resource "local_file" "coolblue_public_ip_file" {
     filename = "../outputs/coolblue_ip.txt"
 }
 
+# DNS record for public IP
+resource "azurerm_dns_a_record" "coolblue_dns_record" {
+  name                = "peer0.coolblue.advertisers"
+  zone_name           = "sbc.andreasfurster.nl"
+  resource_group_name = var.rgname
+  ttl                 = 1
+  records             = [azurerm_public_ip.coolblue_vmip.ip_address]
+}
+
 # NIC with Public IP Address
 resource "azurerm_network_interface" "coolblue_nic" {
   name                = "coolblue-vm-nic"

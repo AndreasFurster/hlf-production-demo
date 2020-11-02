@@ -4,4 +4,4 @@ OrdererOrgs:
     Template:
       Count: 1
       SANS:
-        - localhost
+      

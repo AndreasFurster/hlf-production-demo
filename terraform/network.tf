@@ -30,6 +30,18 @@ resource "azurerm_network_security_group" "nsgname" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
+  security_rule {
+    name                       = "HLF"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "7050"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 #Associate NSG with  subnet

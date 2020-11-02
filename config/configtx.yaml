@@ -1,19 +1,19 @@
 Organizations:
 
-    - &OrdererOrg
-        Name: OrdererOrg
-        ID: OrdererMSP
+    - &DaisyconOrg
+        Name: DaisyconOrg
+        ID: DaisyconMSP
         MSPDir: generated/crypto-material/ordererOrganizations/daisycon.networks.sbc.andreasfurster.nl/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('DaisyconMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('DaisyconMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('OrdererMSP.admin')"
+                Rule: "OR('DaisyconMSP.admin')"
         OrdererEndpoints:
             - orderer0.daisycon.networks.sbc.andreasfurster.nl:7050
 
@@ -36,7 +36,7 @@ Organizations:
                 Rule: "OR('CoolblueMSP.member')"
         AnchorPeers:
             - Host: peer0.coolblue.advertisers.sbc.andreasfurster.nl
-              Port: 7051
+              Port: 7050
 
     # - &Org2
     #     Name: Org2
@@ -136,7 +136,7 @@ Profiles:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
-                - *OrdererOrg
+                - *DaisyconOrg
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
