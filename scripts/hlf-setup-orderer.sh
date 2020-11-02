@@ -2,7 +2,7 @@ YELLOW='\033[0;33m'
 NO_COLOR='\033[0m'
 
 export FABRIC_CFG_PATH=${PWD}
-export FABRIC_LOGGING_SPEC="WARN:cauthdsl=debug:policies=debug:msp=debug"
+# export FABRIC_LOGGING_SPEC="WARN:cauthdsl=debug:policies=debug:msp=debug"
 
 
 function printSeparator() {
@@ -12,8 +12,8 @@ function printSeparator() {
 
 printSeparator "Generate crypto-material"
 cryptogen generate --config=./crypto-config-daisycon.yaml --output=./generated/crypto-material
-cryptogen generate --config=./crypto-config-coolblue.yaml --output=./generated/crypto-material
-cryptogen generate --config=./crypto-config-tweakers.yaml --output=./generated/crypto-material
+# cryptogen generate --config=./crypto-config-coolblue.yaml --output=./generated/crypto-material
+# cryptogen generate --config=./crypto-config-tweakers.yaml --output=./generated/crypto-material
 
 
 printSeparator "Create Genesis-Block"

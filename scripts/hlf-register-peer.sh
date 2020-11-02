@@ -7,7 +7,7 @@ function printSeparator() {
 }
 
 export FABRIC_CFG_PATH=${PWD}
-export FABRIC_LOGGING_SPEC="WARN:cauthdsl=debug:policies=debug:msp=debug"
+# export FABRIC_LOGGING_SPEC="WARN:cauthdsl=debug:policies=debug:msp=debug"
 
 export ORDERER_CA=${PWD}/generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/tlsca/tlsca.daisycon.sbc.andreasfurster.nl-cert.pem
 export CORE_PEER_LOCALMSPID=CoolblueMSP

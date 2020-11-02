@@ -1,5 +1,7 @@
 . ./utils.sh
 
+rm -rf ./temp/*
+
 #== 1 Create coolblue peer with crypto material ==
 asCoolblue
 
@@ -10,8 +12,8 @@ uploadFile ./config/docker-compose-coolblue.yaml docker-compose-node.yaml
 # Generate crypto material & start container
 executeScript ./scripts/hlf-start-peer.sh
 
-# mkdir -p ./temp/coolblue/msp 
-# downloadFolder generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl/msp ./temp/coolblue
+mkdir -p ./temp/coolblue/msp 
+downloadFolder generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl/msp ./temp/coolblue
 
 # == 2 Create tweakers peer with crypto material ==
 asTweakers
@@ -23,8 +25,8 @@ uploadFile ./config/docker-compose-tweakers.yaml docker-compose-node.yaml
 # Generate crypto material & start container
 executeScript ./scripts/hlf-start-peer.sh
 
-# mkdir -p ./temp/tweakers/msp
-# downloadFolder generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl/msp ./temp/tweakers
+mkdir -p ./temp/tweakers/msp
+downloadFolder generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl/msp ./temp/tweakers
 
 # == 2 Create orderer & allow peers ==
 asDaisycon
@@ -42,8 +44,8 @@ uploadFile ./config/crypto-config-tweakers.yaml crypto-config-tweakers.yaml
 uploadFile ./config/crypto-config-coolblue.yaml crypto-config-coolblue.yaml
 
 # upload msps from peers
-# uploadFolder ./temp/coolblue/msp generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl
-# uploadFolder ./temp/tweakers/msp generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl
+uploadFolder ./temp/coolblue/msp generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl
+uploadFolder ./temp/tweakers/msp generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl
 
 # Generate crypto material, start orderer, generate genesis, generate channel transaction
 executeScript ./scripts/hlf-setup-orderer.sh

@@ -1,8 +1,8 @@
 
 # echo "Generate crypto-material"
-# cryptogen generate --config=./crypto-config.yaml --output=./generated/crypto-material
 sudo rm -rf ./generated
 docker-compose --file ./docker-compose-node.yaml down --volumes --remove-orphans
+cryptogen generate --config=./crypto-config.yaml --output=./generated/crypto-material
 # sleep 2
 
 # echo "Start container"
